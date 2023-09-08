@@ -1,8 +1,10 @@
 const express = require('express');
 const routes = require('./routes');
 const sequelize = require('./config/connection');
-const dotenv = require('dotenv');
+const dotenv = require('dotenv'); 
 const bcrypt = require('bcrypt');
+
+dotenv.config(); // Call dotenv.config() to load environment variables
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -14,7 +16,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(routes);
-dotenv.config();
 
 // sync sequelize models to the database, then turn on the server
 sequelize.sync({ force: false }).then(() => {
