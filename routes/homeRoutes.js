@@ -1,21 +1,39 @@
 const router = require('express').Router();
-const { Post, User } = require('../models');
+const { Post, User, Comment } = require('../models');
 const withAuth = require('../utils/auth');
 
-router.get('/', async (req, res) => {
-    console.log('REQ ---> ', req , '\n', 'RES --> ', res);
-  try {
-   // IMPORTANT//!! Get all posts and JOIN with user data
-    /*
-    const projectData = await Project.findAll({
-      include: [
-        {
-          model: User,
-          attributes: ['name'],
-        },
-      ],
-    });
-    */
+router.get('/', (req, res) => {
+  console.log('REQ ---> ', req , '\n', 'RES --> ', res);
+  
+  // IMPORTANT//!! Get all posts and JOIN with user data
+    
+  Post.findAll({
+    attributes:[
+      'id',
+      'title',
+      'post_content',
+      'created_at'
+    ],
+    include: [
+      {
+        model:Comment,
+        attributes:['id', 'comment_content', 'user_id', 'post_id', 'created_at'],
+        include:{
+          model:User,
+          attributes:['name', 'email']
+        }
+      },
+      {
+        model:User,
+        attributes:['name', 'email']
+      }
+    ]
+  }).then(data => {
+    console.log(' data in home rtoutes ', data);
+  }).catch(err => {
+    console.log('Error ', err);
+  })
+    
 
     // IMPORTANT//!! Serialize data so the template can read it
     /**const projects = projectData.map((project) => project.get({ plain: true }));**/
@@ -27,9 +45,7 @@ router.get('/', async (req, res) => {
       logged_in: req.session.logged_in 
     });
     */
-  } catch (err) {
-    res.status(500).json(err);
-  }
+
   
 });
 
