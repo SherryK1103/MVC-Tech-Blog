@@ -16,20 +16,20 @@ router.get('/', (req, res) => {
     ],
     include: [
       {
-        model:Comment,
+        models:Comment,
         attributes:['id', 'comment_content', 'user_id', 'post_id', 'created_at'],
         include:{
-          model:User,
+          models:User,
           attributes:['name', 'email']
         }
       },
       {
-        model:User,
+        models:User,
         attributes:['name', 'email']
       }
     ]
   }).then(data => {
-    console.log(' data in home rtoutes ', data);
+    console.log(' data in home routes ', data);
   }).catch(err => {
     console.log('Error ', err);
   })
@@ -55,7 +55,7 @@ router.get('/post/:id', async (req, res) => {
     const projectData = await Project.findByPk(req.params.id, {
       include: [
         {
-          model: User,
+          models: User,
           attributes: ['name'],
         },
       ],
@@ -79,7 +79,7 @@ router.get('/profile', withAuth, async (req, res) => {
     // Find the logged in user based on the session ID
     /*const userData = await User.findByPk(req.session.user_id, {
       attributes: { exclude: ['password'] },
-      include: [{ model: Project }],
+      include: [{ models: Project }],
     });
 
     const user = userData.get({ plain: true });
