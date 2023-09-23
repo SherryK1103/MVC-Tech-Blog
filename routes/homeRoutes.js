@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const { Post, User, Comment } = require('../models');
 const withAuth = require('../utils/auth');
+const handlebars = require('handlebars');
+const fs = require('fs');
 
 router.get('/', (req, res) => {
   console.log('REQ ---> ', req , '\n', 'RES --> ', res);
