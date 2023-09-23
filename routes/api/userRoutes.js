@@ -33,7 +33,7 @@ router.get('/post/:id', async (req, res) => {
     const projectData = await Project.findByPk(req.params.id, {
       include: [
         {
-          model: User,
+          models: User,
           attributes: ['name'],
         },
       ],
@@ -57,7 +57,7 @@ router.get('/profile', withAuth, async (req, res) => {
     // Find the logged in user based on the session ID
     const userData = await User.findByPk(req.session.user_id, {
       attributes: { exclude: ['password'] },
-      include: [{ model: Project }],
+      include: [{ models: Project }],
     });
 
     const user = userData.get({ plain: true });
