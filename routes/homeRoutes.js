@@ -10,28 +10,13 @@ router.get('/', (req, res) => {
   // IMPORTANT//!! Get all posts and JOIN with user data
     
   Post.findAll({
-    attributes:[
-      'id',
-      'title',
-      'post_content',
-      'created_at'
-    ],
-    include: [
-      {
-        models:Comment,
-        attributes:['id', 'comment_content', 'user_id', 'post_id', 'created_at'],
-        include:{
-          models:User,
-          attributes:['name', 'email']
-        }
-      },
-      {
-        models:User,
-        attributes:['name', 'email']
-      }
-    ]
+    include: [User]
   }).then(data => {
-    console.log(' data in home routes ', data);
+   
+    const posts = data.map((data) => data.get({plain:true}));
+    console.log(posts);
+    // res.json(data);
+    res.render('homepage', {posts});
   }).catch(err => {
     console.log('Error ', err);
   })
