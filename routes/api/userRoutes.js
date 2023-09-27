@@ -2,50 +2,42 @@ const router = require('express').Router();
 const { Post, User } = require('../../models');
 const withAuth = require('../../utils/auth');
 
-router.get('/', (req, res) => {
-  
-   // IMPORTANT//!! Get all posts and JOIN with user data
-    User.findAll({
-        attributes:['name','email'],
-  
-    }).then((data) => {
-        res.json(data)
-    }).catch((err) => {
-        console.log('Error: ', err);
+router.post('/', async (req, res) => {
+  try {
+    const newUser = await User.create({
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password,
     })
-    
+    req.session.save(() => {
+      req.session.user_id = newUser.id;
+      req.session.name = newUser.name;
+      req.session.logged_in = true;
+      res.json(newUser);
+    })
 
-    // IMPORTANT//!! Serialize data so the template can read it
-    const projects = projectData.map((project) => project.get({ plain: true }));
+  } catch (err) {
+    console.logg(err);
+    res.status(500).json(err);
+  }
 
-    //!! Pass serialized data and session flag into template
-    
-    res.render('homepage', { 
-      projects, 
-      logged_in: req.session.logged_in 
-    });
-  
 });
 
-router.get('/post/:id', async (req, res) => {
+router.post('/login', async (req, res) => {
   try {
-    
-    const projectData = await Project.findByPk(req.params.id, {
-      include: [
-        {
-          models: User,
-          attributes: ['name'],
-        },
-      ],
-    });
+    const user = await User.findOne({
+      where: {
+        email: req.body.email,
+      }
+    })
+    const password = user.checkPassword(req.body.password);
+    req.session.save(() => {
+      req.session.user_id = user.id;
+      req.session.name = user.name;
+      req.session.logged_in = true;
+      res.json(user);
+    })
 
-    const project = projectData.get({ plain: true });
-
-    res.render('project', {
-      ...project,
-      logged_in: req.session.logged_in
-    });
-    
   } catch (err) {
     res.status(500).json(err);
   }
@@ -66,7 +58,7 @@ router.get('/profile', withAuth, async (req, res) => {
       ...user,
       logged_in: true
     });
-  
+
   } catch (err) {
     res.status(500).json(err);
   }
