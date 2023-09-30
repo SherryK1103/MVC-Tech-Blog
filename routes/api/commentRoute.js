@@ -14,3 +14,10 @@ router.get('/', (req, res) => {
             res.status(500).json(err);
         });
 });
+
+// Create a new comment
+router.post('/', (req, res) => {
+    Comment.create({
+        text: req.body.text,
+    })
+})
