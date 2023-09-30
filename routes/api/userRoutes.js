@@ -22,7 +22,7 @@ router.post('/', async (req, res) => {
   }
 
 });
-
+// This is POST api/users/login
 router.post('/login', async (req, res) => {
   try {
     const user = await User.findOne({

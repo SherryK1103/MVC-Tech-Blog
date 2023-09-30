@@ -1,3 +1,4 @@
+// ****THIS IS THE BACK END****
 const path = require('path');
 const express = require('express');
 const session = require('express-session');
@@ -39,7 +40,7 @@ app.set('view engine', 'handlebars');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
-
+// Passing request to a router, router will find an endpoint and return a response. If endpoint doesn't exist it will error out
 app.use(routes);
 
 sequelize.sync({ force: false }).then(() => {
