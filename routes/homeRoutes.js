@@ -21,12 +21,6 @@ router.get('/', (req, res) => {
     console.log('Error ', err);
   })
 
-  router.get('/login', (req, res) => {
-    res.render('login');
-
-  })
-
-
   // IMPORTANT//!! Serialize data so the template can read it
   /**const projects = projectData.map((project) => project.get({ plain: true }));**/
 
@@ -37,8 +31,6 @@ router.get('/', (req, res) => {
     logged_in: req.session.logged_in 
   });
   */
-
-
 });
 
 router.get('/post/:id', async (req, res) => {
