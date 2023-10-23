@@ -11,7 +11,7 @@ Git clone <paste SSH key>
 
 ## Deployed Link
 
-https://sherryk1103.github.io/MVC-Tech-Blog/
+https://vast-dusk-28814-bab9820d09f9.herokuapp.com/
 
 ## Process Steps
 
