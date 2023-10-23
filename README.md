@@ -13,6 +13,10 @@ Git clone <paste SSH key>
 
 https://vast-dusk-28814-bab9820d09f9.herokuapp.com/
 
+## Usage
+
+![MVC-SS](./Assets/MVC-SS.png)
+
 ## Process Steps
 
 1. Created a unique GitHub repo for this project.
